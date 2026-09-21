@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0913">
+<title>Бадинура · 22 сентября</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0a0913;
+  --ink:#f6efe6;
+  --soft:#a99fb0;
+  --gold:#e8c08a;
+  --gold-2:#f6ddbd;
+  --blush:#e9a3a8;
+  --line:rgba(255,255,255,.12);
+  --glow-a:rgba(232,192,138,.16);
+  --glow-b:rgba(120,90,180,.20);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --hand:"Caveat","Segoe Script",cursive;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;
+  background:var(--night);
+  color:var(--ink);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%}
+button{font:inherit;color:inherit}
+
+/* ---------- фон ---------- */
+.sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.sky .wash{
+  position:absolute;inset:-10%;
+  background:
+    radial-gradient(60% 45% at 78% 8%, var(--glow-a), transparent 65%),
+    radial-gradient(70% 50% at 12% 88%, var(--glow-b), transparent 70%),
+    linear-gradient(180deg,#0b0a16 0%, #0a0913 55%, #07060d 100%);
+  transition:background 1400ms ease;
+}
+.moon{
+  position:absolute;top:8vh;right:11vw;width:74px;height:74px;border-radius:50%;
+  background:radial-gradient(circle at 34% 32%, #fff6e6, #e8c08a 58%, #c99a63 100%);
+  box-shadow:0 0 60px 18px rgba(232,192,138,.22), 0 0 140px 50px rgba(232,192,138,.10);
+  opacity:.95; transition:transform 1200ms ease, opacity 1200ms ease;
+}
+.stars i{position:absolute;border-radius:50%;background:#fff;opacity:.6;animation:tw 4s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.18;transform:scale(.85)}50%{opacity:.9;transform:scale(1)}}
+.skyline{position:absolute;left:0;right:0;bottom:0;width:100%;opacity:.85;transition:transform 1200ms ease}
+.haze{position:absolute;left:0;right:0;bottom:0;height:42vh;
+  background:linear-gradient(180deg,transparent, rgba(232,192,138,.07) 55%, rgba(232,192,138,.12));
+  transition:opacity 1200ms ease}
+.hearts{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.hearts span{position:absolute;bottom:-40px;color:var(--blush);opacity:0;animation:rise linear forwards}
+@keyframes rise{
+  0%{opacity:0;transform:translateY(0) scale(.6)}
+  12%{opacity:.7}
+  100%{opacity:0;transform:translateY(-108vh) translateX(var(--dx,0px)) scale(1.1)}
+}
+
+/* ---------- каркас ---------- */
+.stage{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column}
+.bar{
+  position:sticky;top:0;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 20px 12px;
+  backdrop-filter:blur(6px);
+}
+.bar .who{font-family:var(--serif);font-size:17px;letter-spacing:.02em;color:var(--gold-2)}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18);transition:.4s}
+.dots i.on{background:var(--gold);transform:scale(1.25)}
+.dots i.done{background:rgba(232,192,138,.45)}
+.back{border:0;background:none;color:var(--soft);font-size:13px;padding:6px 0;cursor:pointer;opacity:0;pointer-events:none;transition:.3s}
+.back.show{opacity:1;pointer-events:auto}
+
+.scene{display:none;flex:1;padding:8px 20px calc(46px + env(safe-area-inset-bottom,0px))}
+.scene.live{display:flex;flex-direction:column}
+.wrap{width:min(600px,100%);margin:auto}
+.rise{opacity:0;transform:translateY(18px);animation:up .7s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes up{to{opacity:1;transform:none}}
+
+/* ---------- типографика ---------- */
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(40px,11vw,64px);line-height:1.02;letter-spacing:-.01em;margin:0 0 18px}
+h2{font-family:var(--serif);font-weight:600;font-size:clamp(30px,8.2vw,46px);line-height:1.08;margin:0 0 16px}
+h3{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.1;margin:0}
+p{margin:0 0 16px;line-height:1.7;color:#ddd3d9;font-size:15.5px}
+.lead{color:#cfc5cf}
+.hint{font-size:12.5px;color:#8b8296;letter-spacing:.01em}
+.hand{font-family:var(--hand);font-size:27px;color:var(--gold-2);line-height:1.25}
+.time{font-family:var(--serif);font-size:15px;letter-spacing:.14em;color:var(--gold)}
+
+/* ---------- кнопки ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border:1px solid var(--line);border-radius:999px;
+  padding:15px 24px;background:rgba(255,255,255,.03);cursor:pointer;
+  font-size:15px;font-weight:500;transition:transform .15s ease,background .25s ease,border-color .25s;
+}
+.btn:hover{background:rgba(255,255,255,.07)}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.btn.main{
+  background:linear-gradient(135deg,var(--gold-2),var(--gold));
+  color:#221a12;border-color:transparent;font-weight:700;
+  box-shadow:0 12px 34px -14px rgba(232,192,138,.75);
+}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.row .btn{flex:1;min-width:170px}
+.map{
+  display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  color:var(--gold-2);border:1px solid rgba(232,192,138,.32);border-radius:999px;
+  padding:9px 14px;font-size:12.5px;transition:.25s;
+}
+.map:hover{background:rgba(232,192,138,.1)}
+
+/* ---------- карточки ---------- */
+.card{
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+  border:1px solid var(--line);border-radius:22px;padding:20px;margin:18px 0;
+  box-shadow:0 26px 60px -40px #000;
+}
+.place{padding:0;overflow:hidden}
+.art{display:block;width:100%;aspect-ratio:16/9;background:#0f0d16}
+.art svg{display:block;width:100%;height:100%}
+.body{padding:20px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.addr{font-size:12.5px;color:#958c9f;margin-top:7px}
+.badge{width:44px;height:44px;flex:none;border:1px solid var(--line);border-radius:14px;display:grid;place-items:center;font-size:20px;background:rgba(0,0,0,.25)}
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.pill{font-size:12.5px;color:#cdc3cd;border:1px solid var(--line);border-radius:999px;padding:8px 12px}
+.photo{display:block;width:100%;object-fit:cover;border-radius:18px}
+.photo.tall{aspect-ratio:4/5}
+.photo.wide{aspect-ratio:4/3}
+.frame{position:relative;padding:12px 12px 0;background:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:22px}
+.frame .cap{font-family:var(--hand);font-size:22px;color:#cbbfd0;text-align:center;padding:12px 6px 14px}
+
+/* ---------- отсчёт ---------- */
+.count{display:flex;gap:10px;margin:26px 0 8px}
+.cell{flex:1;border:1px solid var(--line);border-radius:16px;padding:14px 6px;text-align:center;background:rgba(255,255,255,.03)}
+.cell b{display:block;font-family:var(--serif);font-size:30px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.cell span{display:block;font-size:10.5px;color:#8b8296;margin-top:7px;letter-spacing:.06em}
+
+/* ---------- выбор ---------- */
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.opt{
+  border:1px solid var(--line);border-radius:22px;padding:20px 15px;text-align:center;
+  background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01));
+  cursor:pointer;transition:.25s;min-height:172px;display:flex;flex-direction:column;justify-content:center;
+}
+.opt:hover{border-color:rgba(232,192,138,.5)}
+.opt:active{transform:scale(.98)}
+.opt.sel{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset,0 18px 40px -26px var(--gold)}
+.opt .ic{font-size:28px;margin-bottom:12px}
+.opt strong{font-family:var(--serif);font-size:19px;font-weight:600}
+.opt span{display:block;color:#9f95a6;font-size:12px;line-height:1.5;margin-top:8px}
+
+/* ---------- маршрут ---------- */
+.route{position:relative;margin:22px 0 6px;padding-left:30px}
+.route::before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,transparent,rgba(232,192,138,.55),transparent)}
+.stop{position:relative;padding:0 0 26px}
+.stop:last-child{padding-bottom:0}
+.stop::before{content:"";position:absolute;left:-26px;top:5px;width:11px;height:11px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(232,192,138,.15)}
+.stop b{font-family:var(--serif);font-size:21px;font-weight:600;display:block}
+.stop small{display:block;color:#958c9f;font-size:12.5px;margin-top:5px;line-height:1.5}
+
+/* ---------- конверт ---------- */
+.gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#08070f;transition:opacity .8s ease}
+.gate.gone{opacity:0;pointer-events:none}
+.env{text-align:center;padding:26px}
+.env .seal{
+  width:112px;height:112px;margin:0 auto 26px;border-radius:50%;
+  display:grid;place-items:center;font-size:40px;
+  background:radial-gradient(circle at 34% 30%, rgba(246,221,189,.22), rgba(232,192,138,.06));
+  border:1px solid rgba(232,192,138,.4);
+  animation:beat 2.6s ease-in-out infinite;
+}
+@keyframes beat{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(232,192,138,.22)}50%{transform:scale(1.06);box-shadow:0 0 44px 10px rgba(232,192,138,.12)}}
+.env p{color:#9b92a6;font-size:14px}
+
+/* ---------- финал ---------- */
+.pop{position:fixed;inset:0;z-index:10;pointer-events:none}
+.pop i{position:absolute;font-size:18px;animation:fall 2.6s linear forwards}
+@keyframes fall{to{transform:translateY(112vh) rotate(420deg);opacity:0}}
+.sign{font-family:var(--hand);font-size:30px;color:var(--gold-2);margin-top:24px}
+
+@media(max-width:400px){
+  .art{aspect-ratio:3/2}
+  .pick{gap:9px}
+  .opt{padding:18px 11px;min-height:164px}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .rise{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="sky" aria-hidden="true">
+  <div class="wash" id="wash"></div>
+  <div class="moon" id="moon"></div>
+  <div class="stars" id="stars"></div>
+  <div class="haze" id="haze"></div>
+  <svg class="skyline" id="skyline" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice">
+    <defs>
+      <linearGradient id="cityG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#171326"/><stop offset="1" stop-color="#090811"/>
+      </linearGradient>
+      <linearGradient id="mtn" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#241d38"/><stop offset="1" stop-color="#120f1f"/>
+      </linearGradient>
+    </defs>
+    <path d="M0 300V172l86-64 58 40 74-58 96 70 70-44 92 62 78-52 104 74 76-46 92 58 80-38 94 62 100-54v82z" fill="url(#mtn)" opacity=".85"/>
+    <g fill="url(#cityG)">
+      <rect x="20" y="214" width="58" height="86"/><rect x="88" y="242" width="40" height="58"/>
+      <rect x="140" y="196" width="66" height="104"/><rect x="216" y="236" width="44" height="64"/>
+      <rect x="272" y="212" width="52" height="88"/><rect x="336" y="184" width="38" height="116"/>
+      <rect x="386" y="226" width="62" height="74"/><rect x="460" y="204" width="46" height="96"/>
+      <rect x="518" y="240" width="56" height="60"/><rect x="586" y="190" width="42" height="110"/>
+      <rect x="640" y="222" width="64" height="78"/><rect x="716" y="246" width="42" height="54"/>
+      <rect x="770" y="200" width="58" height="100"/><rect x="840" y="232" width="48" height="68"/>
+      <rect x="900" y="212" width="66" height="88"/><rect x="978" y="244" width="40" height="56"/>
+      <rect x="1030" y="198" width="60" height="102"/><rect x="1102" y="230" width="72" height="70"/>
+    </g>
+    <g id="wins" fill="#e8c08a"></g>
+  </svg>
+</div>
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+<div class="pop" id="pop" aria-hidden="true"></div>
+
+<div class="gate" id="gate">
+  <div class="env">
+    <div class="seal">♡</div>
+    <h2 style="margin-bottom:10px">Это для тебя</h2>
+    <p>Кое-что, что я собрал на завтра.</p>
+    <button class="btn main" id="open" style="margin-top:16px">Открыть</button>
+  </div>
+</div>
+
+<div class="stage">
+  <header class="bar">
+    <span class="who">Бадинура · 22.09</span>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <button class="back" id="back" aria-label="Назад">← назад</button>
+  </header>
+
+  <!-- 1 -->
+  <section class="scene" id="s0">
+    <div class="wrap" style="text-align:center">
+      <div class="time rise" style="animation-delay:.05s">00:00 · 22 сентября</div>
+      <h1 class="rise" style="animation-delay:.15s;margin-top:14px">С днём<br>рождения,<br>Бадинура</h1>
+      <p class="lead rise" style="animation-delay:.3s">Мне не хотелось ждать утра, чтобы это сказать.<br>А ещё я собрал для тебя целый день — вот он, целиком. ♡</p>
+      <div class="count rise" id="count" style="animation-delay:.45s">
+        <div class="cell"><b id="hh">—</b><span>часов</span></div>
+        <div class="cell"><b id="mm">—</b><span>минут</span></div>
+        <div class="cell"><b id="ss">—</b><span>секунд</span></div>
+      </div>
+      <div class="hint rise" style="animation-delay:.5s" id="cdlabel">до начала нашего дня</div>
+      <div class="row rise" style="animation-delay:.6s"><button class="btn main" data-go="1">Показать план</button></div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="scene" id="s1">
+    <div class="wrap">
+      <h2 class="rise">У нас будет<br>свой маршрут</h2>
+      <p class="lead rise" style="animation-delay:.1s">От вкусного обеда до вечерних приключений — несколько мест и целый день, который мы проведём вдвоём. Ничего планировать не нужно, я уже всё придумал.</p>
+      <div class="frame rise" style="animation-delay:.2s">
+        <img class="photo tall" src="__PHOTO_TALL__" alt="Мы вдвоём">
+        <div class="cap">Хочу, чтобы таких моментов у нас становилось только больше ♡</div>
+      </div>
+      <div class="row rise" style="animation-delay:.3s"><button class="btn main" data-go="2">С чего начнём</button></div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="scene" id="s2">
+    <div class="wrap">
+      <div class="time rise">первая остановка</div>
+      <h2 class="rise" style="animation-delay:.08s;margin-top:12px">Обед вдвоём</h2>
+      <p class="lead rise" style="animation-delay:.16s">Начнём день с чего-нибудь вкусного, спокойно посидим и просто побудем вдвоём. А дальше отправимся навстречу следующей части маршрута. ♡</p>
+      <div class="card place rise" style="animation-delay:.24s">
+        <div class="art">__ART_SUSHI__</div>
+        <div class="body">
+          <div class="head">
+            <div>
+              <div class="time">13:00</div>
+              <h3 style="margin-top:8px">Sumo San</h3>
+              <div class="addr">ул. Байтурсынова, 159 · Алматы</div>
+            </div>
+            <div class="badge">🍣</div>
+          </div>
+          <div class="pills"><span class="pill">Суши и роллы</span><span class="pill">Столик за мной</span></div>
+          <div style="margin-top:14px"><a class="map" href="https://2gis.kz/almaty/search/Sumo-San" target="_blank" rel="noopener">Открыть в 2ГИС ↗</a></div>
+        </div>
+      </div>
+      <div class="row rise" style="animation-delay:.32s"><button class="btn main" data-go="3">А потом?</button></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="scene" id="s3">
+    <div class="wrap">
+      <div class="time rise">вторая остановка</div>
+      <h2 class="rise" style="animation-delay:.08s;margin-top:12px">Немного<br>скорости</h2>
+      <p class="lead rise" style="animation-delay:.16s">После вкусного обеда самое время разогнаться. Нас ждут скорость, азарт и несколько часов, чтобы просто веселиться вместе. Посмотрим, кто из нас окажется быстрее. ♡</p>
+      <div class="card place rise" style="animation-delay:.24s">
+        <div class="art">__ART_KART__</div>
+        <div class="body">
+          <div class="head">
+            <div>
+              <div class="time">после обеда</div>
+              <h3 style="margin-top:8px">Metro</h3>
+              <div class="addr">ул. Жандосова, 2Б · Алматы</div>
+            </div>
+            <div class="badge">🏁</div>
+          </div>
+          <div class="pills"><span class="pill">🏎️ Картинг</span><span class="pill">🎳 Боулинг</span></div>
+          <div style="margin-top:14px"><a class="map" href="https://2gis.kz/almaty/search/%D0%9C%D0%B5%D1%82%D1%80%D0%BE%20%D0%96%D0%B0%D0%BD%D0%B4%D0%BE%D1%81%D0%BE%D0%B2%D0%B0%202%D0%91" target="_blank" rel="noopener">Открыть в 2ГИС ↗</a></div>
+        </div>
+      </div>
+      <div class="row rise" style="animation-delay:.32s"><button class="btn main" data-go="4">Что дальше</button></div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="scene" id="s4">
+    <div class="wrap">
+      <div class="time rise">теперь решаешь ты</div>
+      <h2 class="rise" style="animation-delay:.08s;margin-top:12px">А дальше —<br>выбор за тобой</h2>
+      <p class="lead rise" style="animation-delay:.16s">После картинга и боулинга день можно продолжить одним из двух способов. Выбери то, чего тебе больше захочется завтра — я подстроюсь.</p>
+      <div class="pick rise" style="animation-delay:.24s">
+        <button class="opt" data-pick="quest">
+          <div class="ic">🧠</div><strong>Логический квест</strong>
+          <span>Загадки, азарт и час работы в команде</span>
+        </button>
+        <button class="opt" data-pick="park">
+          <div class="ic">🌲</div><strong>Парк Горького</strong>
+          <span>Прогуляемся, отдохнём и побудем рядом</span>
+        </button>
+      </div>
+      <div class="card" id="picked" style="display:none">
+        <div class="time" id="pickTitle"></div>
+        <p class="lead" id="pickText" style="margin:12px 0 14px"></p>
+        <a class="map" id="pickMap" href="#" target="_blank" rel="noopener">Открыть в 2ГИС ↗</a>
+        <div class="row"><button class="btn main" data-go="5">Посмотреть весь день</button></div>
+      </div>
+      <p class="hint rise" id="pickHint" style="animation-delay:.3s;margin-top:18px">Выбор можно поменять — просто нажми на другую карточку.</p>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="scene" id="s5">
+    <div class="wrap">
+      <div class="time rise">весь маршрут</div>
+      <h2 class="rise" style="animation-delay:.08s;margin-top:12px">Наш день</h2>
+      <p class="lead rise" style="animation-delay:.14s">Ничего сложного: вкусная еда, смех, азарт, прогулка и много времени вдвоём.</p>
+      <div class="card rise" style="animation-delay:.22s">
+        <div class="route">
+          <div class="stop"><b>Sumo San</b><small>13:00 · обед и спокойное начало дня</small></div>
+          <div class="stop"><b>Metro</b><small>картинг и боулинг · кто быстрее</small></div>
+          <div class="stop"><b id="routePick">Твой выбор</b><small id="routePickSub">квест или парк — решаешь ты</small></div>
+          <div class="stop"><b>Вечер</b><small>без спешки, вдвоём ♡</small></div>
+        </div>
+      </div>
+      <div class="row rise" style="animation-delay:.3s"><button class="btn main" data-go="6">Последнее</button></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="scene" id="s6">
+    <div class="wrap" style="text-align:center">
+      <h2 class="rise">Просто хочу<br>быть рядом с тобой ♡</h2>
+      <p class="lead rise" style="animation-delay:.12s">Я собрал этот день не для того, чтобы просто куда-то сходить. Мне хотелось подарить тебе один день, в котором будет понемногу всего: вкусная еда, смех, азарт, прогулка и много времени вдвоём.</p>
+      <div class="frame rise" style="animation-delay:.2s">
+        <img class="photo wide" src="__PHOTO_WIDE__" alt="Мы вдвоём">
+        <div class="cap">И пусть таких дней у нас будет много ♡</div>
+      </div>
+      <p class="hand rise" style="animation-delay:.28s;margin-top:22px">С днём рождения, Бадинура.<br>Спасибо, что ты есть.</p>
+      <div class="sign rise" style="animation-delay:.34s">Твой человек ♡</div>
+      <div class="row rise" style="animation-delay:.4s">
+        <button class="btn" id="again">Ещё раз с начала</button>
+        <button class="btn main" id="love">Обнять меня</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* звёзды */
+  var stars = document.getElementById('stars'), sHTML = '';
+  for (var i=0;i<90;i++){
+    var s = (Math.random()*2+1).toFixed(1);
+    sHTML += '<i style="left:'+(Math.random()*100).toFixed(2)+'%;top:'+(Math.random()*72).toFixed(2)+'%;width:'+s+'px;height:'+s+'px;animation-delay:'+(Math.random()*4).toFixed(1)+'s"></i>';
+  }
+  stars.innerHTML = sHTML;
+
+  /* окна в домах */
+  var wins = document.getElementById('wins'), wHTML = '';
+  for (var j=0;j<120;j++){
+    var x = 20 + Math.random()*1150, y = 200 + Math.random()*90;
+    wHTML += '<rect x="'+x.toFixed(0)+'" y="'+y.toFixed(0)+'" width="3" height="5" opacity="'+(Math.random()*0.5+0.15).toFixed(2)+'"/>';
+  }
+  wins.innerHTML = wHTML;
+
+  /* сердечки */
+  var hearts = document.getElementById('hearts');
+  function heart(){
+    if (reduce) return;
+    var e = document.createElement('span');
+    e.textContent = Math.random() < .3 ? '✦' : '♡';
+    e.style.left = (Math.random()*100)+'%';
+    e.style.fontSize = (11 + Math.random()*13).toFixed(0)+'px';
+    e.style.setProperty('--dx', ((Math.random()*80)-40).toFixed(0)+'px');
+    e.style.animationDuration = (11 + Math.random()*9).toFixed(1)+'s';
+    hearts.appendChild(e);
+    setTimeout(function(){ e.remove(); }, 21000);
+  }
+  for (var k=0;k<5;k++) setTimeout(heart, k*1400);
+  setInterval(heart, 2600);
+
+  /* настроение сцен */
+  var moods = [
+    ['rgba(232,192,138,.16)','rgba(120,90,180,.22)'],
+    ['rgba(232,192,138,.18)','rgba(150,95,150,.20)'],
+    ['rgba(240,170,120,.20)','rgba(120,90,180,.16)'],
+    ['rgba(255,140,90,.18)','rgba(90,110,190,.20)'],
+    ['rgba(140,200,170,.14)','rgba(110,95,185,.22)'],
+    ['rgba(232,192,138,.17)','rgba(120,90,180,.20)'],
+    ['rgba(240,150,160,.22)','rgba(232,192,138,.18)']
+  ];
+  var wash = document.getElementById('wash'),
+      moon = document.getElementById('moon'),
+      skyline = document.getElementById('skyline'),
+      haze = document.getElementById('haze');
+
+  var scenes = [].slice.call(document.querySelectorAll('.scene'));
+  var dots = document.getElementById('dots');
+  dots.innerHTML = scenes.map(function(){ return '<i></i>'; }).join('');
+  var dotEls = [].slice.call(dots.children);
+  var back = document.getElementById('back');
+  var at = 0;
+
+  function go(n){
+    n = Math.max(0, Math.min(scenes.length-1, n));
+    at = n;
+    scenes.forEach(function(sc,i){ sc.classList.toggle('live', i===n); });
+    scenes[n].querySelectorAll('.rise').forEach(function(el){
+      el.style.animation = 'none'; void el.offsetWidth; el.style.animation = '';
+    });
+    dotEls.forEach(function(d,i){
+      d.className = i===n ? 'on' : (i<n ? 'done' : '');
+    });
+    var m = moods[n] || moods[0];
+    document.documentElement.style.setProperty('--glow-a', m[0]);
+    document.documentElement.style.setProperty('--glow-b', m[1]);
+    moon.style.transform = 'translate('+(-n*9)+'px,'+(n*10)+'px) scale('+(1 - n*0.03)+')';
+    skyline.style.transform = 'translateY('+(n*7)+'px)';
+    haze.style.opacity = n >= scenes.length-1 ? '1' : '.75';
+    back.classList.toggle('show', n>0);
+    window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-go]');
+    if (b) go(parseInt(b.getAttribute('data-go'),10));
+  });
+  back.addEventListener('click', function(){ go(at-1); });
+
+  /* конверт */
+  var gate = document.getElementById('gate');
+  document.getElementById('open').addEventListener('click', function(){
+    gate.classList.add('gone');
+    setTimeout(function(){ gate.style.display='none'; }, 900);
+    go(0);
+  });
+  go(0);
+
+  /* отсчёт до 13:00 22 сентября */
+  var now = new Date();
+  var year = now.getFullYear();
+  var target = new Date(year, 8, 22, 13, 0, 0);
+  if (target - now < -6*3600*1000) target = new Date(year+1, 8, 22, 13, 0, 0);
+  var hh = document.getElementById('hh'), mm = document.getElementById('mm'),
+      ss = document.getElementById('ss'), label = document.getElementById('cdlabel');
+  function pad(v){ return v<10 ? '0'+v : ''+v; }
+  function tick(){
+    var d = target - new Date();
+    if (d <= 0){
+      hh.textContent = mm.textContent = ss.textContent = '00';
+      label.textContent = 'наш день уже начался ♡';
+      return;
+    }
+    var t = Math.floor(d/1000);
+    hh.textContent = pad(Math.floor(t/3600));
+    mm.textContent = pad(Math.floor(t/60)%60);
+    ss.textContent = pad(t%60);
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* выбор */
+  var QUEST = 'https://2gis.kz/almaty/search/%D0%BA%D0%B2%D0%B5%D1%81%D1%82%D1%8B%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B';
+  var PARK  = 'https://2gis.kz/almaty/search/%D0%A6%D0%B5%D0%BD%D1%82%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%9F%D0%B0%D1%80%D0%BA%20%D0%9E%D1%82%D0%B4%D1%8B%D1%85%D0%B0%20%D0%90%D0%BB%D0%BC%D0%B0%D1%82%D1%8B';
+  var picked = document.getElementById('picked');
+  document.querySelectorAll('.opt').forEach(function(o){
+    o.addEventListener('click', function(){
+      document.querySelectorAll('.opt').forEach(function(x){ x.classList.remove('sel'); });
+      o.classList.add('sel');
+      var q = o.getAttribute('data-pick') === 'quest';
+      document.getElementById('pickTitle').textContent = 'выбор принят';
+      document.getElementById('pickText').textContent = q
+        ? 'Идём проверять нашу логику. Время и точку скажу по ходу дня — просто доверься мне. ♡'
+        : 'Тогда немного прогуляемся. Без спешки: просто будем рядом и насладимся остатком дня. ♡';
+      document.getElementById('pickMap').href = q ? QUEST : PARK;
+      document.getElementById('routePick').textContent = q ? 'Логический квест 🧠' : 'Парк Горького 🌲';
+      document.getElementById('routePickSub').textContent = q ? 'загадки и командная работа' : 'прогулка и свежий воздух';
+      document.getElementById('pickHint').textContent = 'Передумаешь — нажми на другую карточку.';
+      picked.style.display = 'block';
+      if (!reduce) setTimeout(function(){ picked.scrollIntoView({behavior:'smooth', block:'center'}); }, 80);
+    });
+  });
+
+  /* финал */
+  var pop = document.getElementById('pop');
+  function burst(){
+    var chars = ['♡','✦','❀','♥'];
+    for (var i=0;i<70;i++){
+      (function(i){
+        var e = document.createElement('i');
+        e.textContent = chars[i % chars.length];
+        e.style.left = (Math.random()*100)+'%';
+        e.style.top = (-10 - Math.random()*30)+'px';
+        e.style.color = ['#e9a3a8','#e8c08a','#f6ddbd'][i%3];
+        e.style.animationDelay = (Math.random()*.7).toFixed(2)+'s';
+        e.style.fontSize = (12+Math.random()*16).toFixed(0)+'px';
+        pop.appendChild(e);
+        setTimeout(function(){ e.remove(); }, 4000);
+      })(i);
+    }
+  }
+  document.getElementById('love').addEventListener('click', burst);
+  document.getElementById('again').addEventListener('click', function(){ go(0); });
+  scenes[scenes.length-1].addEventListener('transitionend', function(){}, false);
+  var lastSeen = false;
+  var obs = setInterval(function(){
+    if (at === scenes.length-1 && !lastSeen){ lastSeen = true; if (!reduce) burst(); }
+    if (at !== scenes.length-1) lastSeen = false;
+  }, 400);
+})();
+</script>
+</body>
+</html>
